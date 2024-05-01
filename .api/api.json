@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "rss3",
+      "source": "@rss3/v1.1.0#6ziwc42clq6p7wvp",
+      "integrity": "sha512-FF6a0fisp74NFP9jYZW9/Hv7BwOOsXvmoGYF5GkIoT3mgIhS2eTQT5PL9/Z+ZsI9VWwR/1L0ZSgPj/VockgSxA==",
+      "installerVersion": "6.1.1"
+    }
+  ]
+}
