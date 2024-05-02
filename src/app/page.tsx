@@ -26,7 +26,7 @@ import ETH from "../../config/ETHRegistrarController.json";
 const queryClient = new QueryClient();
 
 function Page() {
-  const [domain, setDomain] = useState("zzzzz.eth");
+  const [domain, setDomain] = useState("");
   const [network, setNetwork] = useState("");
   const [accountAddress, setAccountAddress] = useState("");
   const [isStartCheck, setIsStartCheck] = useState(false);
@@ -94,7 +94,7 @@ function Page() {
               <div className="flex flex-col items-center justify-center mt-6 mb-6 space-y-2.5">
                 <InputWithButton searchName={handleSearch} />
               </div>
-              {/* <Contract domain={domain} /> */}
+              <Contract domain={domain} />
             </div>
           </div>
         </RainbowKitProvider>
