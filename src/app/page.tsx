@@ -1,7 +1,7 @@
 "use client";
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ConnectButton, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -40,7 +40,7 @@ function Page() {
       });
       console.log("ensAddress情况", ensAddress);
     };
-    getENSAddress();
+    // getENSAddress();
   }, []);
 
   // 检测测试网连接状态
@@ -49,22 +49,25 @@ function Page() {
       console.log("检测测试网连接状态", data);
       const { address, chain, chainId } = data;
       const { rpcUrls } = chain;
-      // console.log("检测测试网连接状态", address, rpcUrls);
-      setAccountAddress(address);
-      setNetwork(rpcUrls.default.http[0] || "当前测试网络异常");
-      // setAccountData(data);
+      changeNetwork(address, rpcUrls);
     },
     onDisconnect() {
       console.log("disconnected");
     }
   });
 
+  const changeNetwork = useCallback((address, rpcUrls) => {
+    console.log("检测测试网连接状态", address, rpcUrls);
+    setAccountAddress(address);
+    setNetwork(rpcUrls.default.http[0] || "当前测试网络异常");
+  }, []);
+
   // 当用户点击按钮时触发写入
-  const handleSearch = async (value) => {
+  const handleSearch = useCallback(async (value) => {
     // setResData("查询中，请稍等……");
     setDomain(value); // 检测该域名
     console.log("输入框信息", value);
-  };
+  }, []);
 
   return (
     <WagmiProvider config={wamiProviderConfig}>
@@ -91,7 +94,7 @@ function Page() {
               <div className="flex flex-col items-center justify-center mt-6 mb-6 space-y-2.5">
                 <InputWithButton searchName={handleSearch} />
               </div>
-              <Contract domain={domain} />
+              {/* <Contract domain={domain} /> */}
             </div>
           </div>
         </RainbowKitProvider>

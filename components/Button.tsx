@@ -1,28 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// Creating a Input hook
-function useInput(defaultValue = "") {
-  const [value, setValue] = useState(defaultValue);
-  function onChange(e) {
-    setValue(e.target.value);
-  }
-  return {
-    value,
-    onChange
-  };
-}
-
 function InputWithButton({ searchName }) {
-  const inputProps = useInput();
-
-  function submitForm(event) {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    searchName(data.get("myInput"));
-  }
+  const submitForm = useCallback(
+    (event) => {
+      event.preventDefault();
+      const data = new FormData(event.target);
+      searchName(data.get("myInput"));
+    },
+    [searchName]
+  );
 
   return (
     <div className="flex items-center justify-center space-x-2">
