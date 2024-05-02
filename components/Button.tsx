@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 // Creating a Input hook
 function useInput(defaultValue = "") {
   const [value, setValue] = useState(defaultValue);
-  function onChange(e) {
+  function onChange(e: EventHandler | HTMLInputElement) {
     setValue(e.target.value);
   }
   return {

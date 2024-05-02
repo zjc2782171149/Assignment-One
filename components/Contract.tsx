@@ -17,49 +17,21 @@ import { useEffect } from "react";
 // 配置提供器 end -----------------------------------------------------------------------
 
 const Contract = ({ domain }) => {
-  // 配置提供器 start -----------------------------------------------------------------------
-  useEffect(() => {
-    readContractData();
-  }, [domain]);
-  const readContractData = async () => {
-    try {
-      // 使用 wagmi 的 library 来获取 ethers Contract 对象
-      const contract = new ethers.Contract(ETH.address, ETH.abi, provider);
-      // 创建 ethers 提供器实例
-      const provider = new providers.Web3Provider(window.ethereum);
-      console.log("合约", contract, window.ethereum);
-      // 调用合约的某个函数，例如 available
-      const isAvailable = await contract.available("zzzzz.eth");
-      console.log("测试是否可行", isAvailable);
-    } catch (error) {
-      console.log("Failed to read contract data:", error);
-    }
-  };
-  // 配置提供器 end -----------------------------------------------------------------------
-
-  // console.log("待检测域名：", domain);
-  const testDomain = "zzzzz.eth";
+  console.log("待检测域名：", domain);
   const contract = useReadContract({
     abi: ETH.abi,
     address: ETH.address,
-    // method: "available",
     functionName: "available",
-    args: [testDomain]
+    args: [domain]
   });
 
   console.log("useReadContract结果", contract);
-
   const { data, isLoading, isError, isSuccess, status } = contract;
-
-  // const account = useAccount();
-
-  // console.log(account);
-
-  // if (isLoading) return <div>Loading...</div>;
-  // if (isError) return <div>Error!</div>;
-  console.log(data);
-
   const isAvailable = data?.[0] ?? false;
+
+  useEffect(() => {
+    console.log("域名发生变化，当前要检测的域名为：", domain);
+  }, [domain]);
 
   return (
     <div className="flex flex-col items-center justify-center mt-10 space-y-2.5">
@@ -72,7 +44,10 @@ const Contract = ({ domain }) => {
         ) : isError ? (
           <p>Error checking domain availability.</p>
         ) : (
-          <p>Domain {isAvailable ? "is" : "is not"} available.</p>
+          <div className="flex flex-col items-center justify-center mt-10 space-y-2.5">
+            <p>Domain {isAvailable ? "is" : "is not"} available.</p>
+            <p>data 值为： {data}</p>
+          </div>
         )}
       </div>
     </div>

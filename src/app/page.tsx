@@ -27,15 +27,11 @@ const queryClient = new QueryClient();
 
 function Page() {
   const [domain, setDomain] = useState("zzzzz.eth");
-  const [accountData, setAccountData] = useState();
+  const [network, setNetwork] = useState("");
+  const [accountAddress, setAccountAddress] = useState("");
+  const [isStartCheck, setIsStartCheck] = useState(false);
 
-  // 当用户点击按钮或其他交互时触发写入
-  const handleSearch = async (value) => {
-    // setResData("查询中，请稍等……");
-    setDomain(value); // 检测该域名
-    console.log("输入框信息", value);
-  };
-
+  // 直接使用 viem 初始化完的 client 检测 Ens 地址是否可用，但貌似一直不行
   useEffect(() => {
     const getENSAddress = async () => {
       const ensAddress = await publicClient.getEnsAddress({
@@ -50,52 +46,51 @@ function Page() {
   // 检测测试网连接状态
   useAccountEffect({
     onConnect(data) {
-      console.log("connected", data);
+      console.log("检测测试网连接状态", data);
       const { address, chain, chainId } = data;
       const { rpcUrls } = chain;
-      console.log("检测测试网连接状态", address, rpcUrls);
-      setAccountData(data);
+      // console.log("检测测试网连接状态", address, rpcUrls);
+      setAccountAddress(address);
+      setNetwork(rpcUrls.default.http[0] || "当前测试网络异常");
+      // setAccountData(data);
     },
     onDisconnect() {
       console.log("disconnected");
     }
   });
 
-  // const EnsResult = useEnsAddress({
-  //   name: normalize("wevm.eth")
-  // });
-  // console.log("useEnsAddress", EnsResult);
+  // 当用户点击按钮时触发写入
+  const handleSearch = async (value) => {
+    // setResData("查询中，请稍等……");
+    setDomain(value); // 检测该域名
+    console.log("输入框信息", value);
+  };
 
   return (
     <WagmiProvider config={wamiProviderConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
           <div className="container mx-auto">
-            <h1 className="mt-8 text-4xl font-bold text-center">
+            <h3 className="mt-8 text-xl font-bold text-center">
               请点击以下按钮连接您的钱包
-            </h1>
+            </h3>
 
             <div className="flex items-center justify-center mt-10">
               <ConnectButton />
             </div>
 
-            <div className="flex flex-col items-center justify-center mt-10 space-y-2.5">
-              <InputWithButton searchName={handleSearch} />
-            </div>
+            <h3 className="mt-8 text-center">
+              <p>当前以太坊地址：{accountAddress || "空"}</p>
+              <p>当前测试网网络：{network || "空"}</p>
+            </h3>
 
             <div className="flex flex-col items-center justify-center mt-10 space-y-2.5">
-              {/* {accountData ? (
-                <div>Connected to account: {accountData}</div>
-              ) : (
-                <div>Connecting...</div>
-              )} */}
-            </div>
-
-            <div className="flex flex-col items-center justify-center mt-10 space-y-2.5">
-              {/* <p>智能化合约如下</p> */}
-              <h4 className="mt-8 text-4xl font-bold text-center">
+              <h3 className="mt-8 text-xl font-bold text-center">
                 wagmi使用useReadContract的读取状态
-              </h4>
+              </h3>
+              <div className="flex flex-col items-center justify-center mt-6 mb-6 space-y-2.5">
+                <InputWithButton searchName={handleSearch} />
+              </div>
               <Contract domain={domain} />
             </div>
           </div>
