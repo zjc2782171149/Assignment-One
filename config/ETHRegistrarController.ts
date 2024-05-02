@@ -489,3 +489,13 @@ export const abi = [
 
 export const address = "0x1DD15613435e374dcEDceDEB275dAe6Fa4DF1A01";
 // export const address = "0x897d02A0329f62eFF9bD3D5Dd91fba427d49f8f2";
+
+export const wagmiAbi = [
+  {
+    inputs: [{ name: "owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  }
+] as const;
