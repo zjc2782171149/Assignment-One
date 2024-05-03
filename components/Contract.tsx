@@ -16,7 +16,7 @@ import { providers, ethers } from "ethers";
 import { useState, useEffect } from "react";
 // 配置提供器 end -----------------------------------------------------------------------
 
-const Contract = ({ domain }) => {
+const Contract = (props) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -25,14 +25,14 @@ const Contract = ({ domain }) => {
   const [status, setStatus] = useState("pending");
 
   useEffect(() => {
-    console.log("域名发生变化，当前要检测的域名为：", domain);
-  }, [domain]);
+    console.log("域名发生变化，当前要检测的域名为：", props.domain);
+  }, [props]);
 
   const contract = useReadContract({
     abi: ETH.abi,
     address: ETH.address,
     functionName: "available",
-    args: [domain]
+    args: [props.domain]
   });
 
   useEffect(() => {
