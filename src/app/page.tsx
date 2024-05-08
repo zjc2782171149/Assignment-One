@@ -102,7 +102,7 @@ function Page() {
                 <InputWithButton searchName={handleSearch} />
               </div>
             </div>
-            {testAddress ? <Contract testAddress={testAddress} /> : <div></div>}
+            {/* {testAddress ? <Contract testAddress={testAddress} /> : <div></div>} */}
           </div>
         </RainbowKitProvider>
       </QueryClientProvider>
