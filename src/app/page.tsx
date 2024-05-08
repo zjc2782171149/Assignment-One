@@ -82,7 +82,7 @@ function Page() {
         <RainbowKitProvider>
           <div className="container mx-auto">
             <h3 className="mt-8 text-xl font-bold text-center">
-              请点击以下按钮连接您的钱包（若没显示，请刷新浏览器）
+              请点击以下按钮连接您的钱包
             </h3>
 
             <div className="flex items-center justify-center mt-10">
@@ -102,7 +102,7 @@ function Page() {
                 <InputWithButton searchName={handleSearch} />
               </div>
             </div>
-            {/* {testAddress ? <Contract testAddress={testAddress} /> : <div></div>} */}
+            {testAddress ? <Contract testAddress={testAddress} /> : <div></div>}
           </div>
         </RainbowKitProvider>
       </QueryClientProvider>
