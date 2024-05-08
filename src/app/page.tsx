@@ -1,7 +1,7 @@
 "use client";
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { ConnectButton, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -59,10 +59,16 @@ function Page() {
   );
 
   // 当用户点击按钮时触发写入
-  const handleSearch = useCallback(async (value) => {
-    setTestAddress(value); // 检测该名称
-    console.log("输入框信息", value);
-  }, []);
+  const handleSearch = useCallback(
+    (value) => {
+      // 新旧值不同才 setState
+      if (value !== testAddress) {
+        setTestAddress(value); // 检测该名称
+        console.log("输入框信息发生改变，改变后结果为：", value);
+      }
+    },
+    [testAddress]
+  );
 
   const submitForm = (event) => {
     event.preventDefault();
